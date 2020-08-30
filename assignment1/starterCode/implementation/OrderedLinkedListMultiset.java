@@ -201,7 +201,7 @@ public class OrderedLinkedListMultiset extends RmitMultiset
     	return currentNode.getElement();
     }
     
-    public void insert(String type) throws IndexOutOfBoundsException {    	
+    public void insert(String type) {    	
     	Element newElement = new Element(type);
     	Node newNode = new Node(newElement);
     	
