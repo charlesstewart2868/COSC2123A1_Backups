@@ -26,7 +26,7 @@ public class OrderedLinkedListMultiset extends RmitMultiset
 	- Difference		||COMPLETE||
 	*/
 	
-	protected Node mHead;
+	protected LinkedNode mHead;
 	protected int mLength;
 	
 	public OrderedLinkedListMultiset() {
@@ -90,8 +90,8 @@ public class OrderedLinkedListMultiset extends RmitMultiset
 						get(i).decrementInstance();
 						return;
 					} else {
-						Node currentNode = mHead;
-						Node previousNode = null;
+						LinkedNode currentNode = mHead;
+						LinkedNode previousNode = null;
 						if (i == 0) {
 							mHead = currentNode.getNext();
 							mLength--;
@@ -115,7 +115,7 @@ public class OrderedLinkedListMultiset extends RmitMultiset
 
     @Override
 	public String print() {
-    	Node currentNode = mHead;
+    	LinkedNode currentNode = mHead;
     	
     	String returnString = "";
     	
@@ -192,7 +192,7 @@ public class OrderedLinkedListMultiset extends RmitMultiset
     		throw new IndexOutOfBoundsException("Supplied index is not within required range");
     	}
     	
-    	Node currentNode = mHead;
+    	LinkedNode currentNode = mHead;
     	for (int i = 0; i < index; ++i) {
     		currentNode = currentNode.getNext();
     	}
@@ -203,7 +203,7 @@ public class OrderedLinkedListMultiset extends RmitMultiset
     
     public void insert(String type) {    	
     	Element newElement = new Element(type);
-    	Node newNode = new Node(newElement);
+    	LinkedNode newNode = new LinkedNode(newElement);
     	
     	if (mHead == null) {
     		mHead = newNode;
@@ -222,7 +222,7 @@ public class OrderedLinkedListMultiset extends RmitMultiset
 	    		newNode.setNext(mHead);
 	    		mHead = newNode;
 	    	} else {
-	    		Node currNode = mHead;
+	    		LinkedNode currNode = mHead;
 		    	for (int i = 0; i < index-1; i++) {
 		    		currNode = currNode.getNext();
 		    	}

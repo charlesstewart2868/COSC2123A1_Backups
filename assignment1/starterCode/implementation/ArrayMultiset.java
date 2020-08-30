@@ -147,7 +147,7 @@ public class ArrayMultiset extends RmitMultiset {
 		if (arraySize > 1) {
 			for (int i = arraySize; i > 1; --i) {
 				for (int k = 1; k < i; ++k) {
-					if (tempArray[highestElement].getInstances() < tempArray[k].getInstances()) {
+					if (tempArray[highestElement].getInstances() > tempArray[k].getInstances()) {
 						highestElement = k;
 					}
 				}

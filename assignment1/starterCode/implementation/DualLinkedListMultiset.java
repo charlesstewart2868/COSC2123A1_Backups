@@ -18,16 +18,16 @@ public class DualLinkedListMultiset extends RmitMultiset
 	- Search  			||COMPLETE||
 	- SearchByInstance
 	- Contains  		||COMPLETE||
-	- RemoveOne
-	- Print
-	- PrintRange
+	- RemoveOne			||COMPLETE||
+	- Print				||COMPLETE||
+	- PrintRange		||COMPLETE||
 	- Union
 	- Intersect
 	- Difference
 	*/
 	
-	protected Node ascendingHead;
-	protected Node instanceHead;
+	protected LinkedNode ascendingHead;
+	protected LinkedNode instanceHead;
 	protected int mLength;
 	
 	public DualLinkedListMultiset() {
@@ -46,10 +46,12 @@ public class DualLinkedListMultiset extends RmitMultiset
     				ascendingGet(i).incrementInstance();
     			}
     		}
+    		
     		for (int i = 0; i < mLength; ++i) {
     			if (instanceGet(i).getType().equals(item)) {
     				instanceGet(i).incrementInstance();
     			}
+    			
     		}
     	}
     } // end of add()
@@ -92,14 +94,13 @@ public class DualLinkedListMultiset extends RmitMultiset
 	public void removeOne(String item) {
 		if (contains(item)) {
 			for (int i = 0; i < mLength; i++) {
-				
 				if (ascendingGet(i).getType().equals(item)) {
 					if (ascendingGet(i).getInstances() > 1) {
 						ascendingGet(i).decrementInstance();
 						return;
 					} else {
-						Node currentNode = ascendingHead;
-						Node previousNode = null;
+						LinkedNode currentNode = ascendingHead;
+						LinkedNode previousNode = null;
 						if (i == 0) {
 							ascendingHead = currentNode.getNext();
 							mLength--;
@@ -115,17 +116,13 @@ public class DualLinkedListMultiset extends RmitMultiset
 					}
 				}
 				
-				
-				
-				
-				
 				if (instanceGet(i).getType().equals(item)) {
 					if (instanceGet(i).getInstances() > 1) {
 						instanceGet(i).decrementInstance();
 						return;
 					} else {
-						Node currentNode = instanceHead;
-						Node previousNode = null;
+						LinkedNode currentNode = instanceHead;
+						LinkedNode previousNode = null;
 						if (i == 0) {
 							instanceHead = currentNode.getNext();
 							mLength--;
@@ -139,10 +136,7 @@ public class DualLinkedListMultiset extends RmitMultiset
 							return;
 						}
 					}
-				}
-				
-				
-				
+				}	
 			}
 		} else {
 			System.out.println("This array does not contaim the element; " + item);
@@ -152,17 +146,34 @@ public class DualLinkedListMultiset extends RmitMultiset
 
     @Override
 	public String print() {
-
-        // Placeholder, please update.
-        return new String();
+    	LinkedNode currentNode = ascendingHead;
+    	
+    	String returnString = "";
+    	
+    	while (currentNode != null) {
+    		returnString = returnString + currentNode.getElement().getType() + ": " + currentNode.getElement().getInstances() + "\n";
+    		currentNode = currentNode.getNext();
+    	}
+    	
+    	return returnString;
     } // end of OrderedPrint
 
 
     @Override
 	public String printRange(String lower, String upper) {
-
-        // Placeholder, please update.
-        return new String();
+    	if (mLength > 0) {
+			String returnString = "";
+			
+			int i = 0;
+			while (ascendingGet(i).getType().compareToIgnoreCase(lower) > 0 && ascendingGet(i).getType().compareToIgnoreCase(upper) < 0 && i < mLength) {
+				returnString = returnString + ascendingGet(i).getType();
+				i++;
+			}
+			
+			return returnString;
+		} else {
+			return "Print failed";
+		}
     } // end of printRange()
 
 
@@ -194,7 +205,7 @@ public class DualLinkedListMultiset extends RmitMultiset
     		throw new IndexOutOfBoundsException("Supplied index is not within required range");
     	}
     	
-    	Node currentNode = ascendingHead;
+    	LinkedNode currentNode = ascendingHead;
     	for (int i = 0; i < index; ++i) {
     		currentNode = currentNode.getNext();
     	}
@@ -208,7 +219,7 @@ public class DualLinkedListMultiset extends RmitMultiset
     		throw new IndexOutOfBoundsException("Supplied index is not within required range");
     	}
     	
-    	Node currentNode = instanceHead;
+    	LinkedNode currentNode = instanceHead;
     	for (int i = 0; i < index; ++i) {
     		currentNode = currentNode.getNext();
     	}
@@ -219,8 +230,8 @@ public class DualLinkedListMultiset extends RmitMultiset
     
     public void insert(String type) {    	
     	Element newElement = new Element(type);
-    	Node newAscendingNode = new Node(newElement);
-    	Node newInstanceNode = new Node(newElement);
+    	LinkedNode newAscendingNode = new LinkedNode(newElement);
+    	LinkedNode newInstanceNode = new LinkedNode(newElement);
     	
     	
     	if (mLength == 0) {
@@ -242,7 +253,7 @@ public class DualLinkedListMultiset extends RmitMultiset
 	    		newAscendingNode.setNext(ascendingHead);
 	    		ascendingHead = newAscendingNode;
 	    	} else {
-	    		Node currNode = ascendingHead;
+	    		LinkedNode currNode = ascendingHead;
 		    	for (int i = 0; i < index-1; i++) {
 		    		currNode = currNode.getNext();
 		    	}

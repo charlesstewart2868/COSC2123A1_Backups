@@ -11,6 +11,14 @@ import java.util.List;
 public class BstMultiset extends RmitMultiset
 {
 
+	protected BinaryNode root;
+	protected int mLength;
+	
+	public BstMultiset() {
+		root = null;
+		mLength = 0;
+	}
+	
     @Override
 	public void add(String item) {
         // Implement me!
