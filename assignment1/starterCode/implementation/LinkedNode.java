@@ -7,19 +7,19 @@ public class LinkedNode {
     protected LinkedNode linkedNext;
 
     public LinkedNode(Element type) {
-        linkedValue = type;
-        linkedNext = null;
+        this.linkedValue = type;
+        this.linkedNext = null;
     }
 
     public Element getElement() {
-        return linkedValue;
+        return this.linkedValue;
     }
 
     public LinkedNode getNext() {
-        return linkedNext;
+        return this.linkedNext;
     }
 
     public void setNext(LinkedNode next) {
-        linkedNext = next;
+        this.linkedNext = next;
     }
 }
