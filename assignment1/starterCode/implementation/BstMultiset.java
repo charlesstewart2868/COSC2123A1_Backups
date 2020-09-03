@@ -11,6 +11,21 @@ import java.util.List;
 public class BstMultiset extends RmitMultiset
 {
 
+	/*
+	Items to complete;
+	- Initialiser  		||COMPLETE||
+	- Add				||COMPLETE||
+	- Search			||COMPLETE||
+	- SearchByInstance
+	- Contains			||COMPLETE||
+	- RemoveOne			||COMPLETE||
+	- Print				||COMPLETE||
+	- PrintRange		||COMPLETE||
+	- Union
+	- Intersect
+	- Difference
+	*/
+	
 	protected BinaryNode root;
 	protected int mLength;
 	
@@ -23,6 +38,7 @@ public class BstMultiset extends RmitMultiset
 	public void add(String item) {
         if (contains(item) == false) {
         	insert(item);
+        	mLength++;
         } else {
         	get(root, item).getElement().incrementInstance();
         }
@@ -55,29 +71,105 @@ public class BstMultiset extends RmitMultiset
 
     @Override
 	public void removeOne(String item) {
-        // Implement me!
+        if (contains(item) == true) {
+        	if (get(root, item).getElement().getInstances() > 1) {
+        		get(root, item).getElement().decrementInstance();
+        	} else {
+            	remove(item);
+            	mLength--;
+        	}
+        } else {
+        	System.out.println("There is no " + item + " to remove");
+        }
     } // end of removeOne()
 
 
+    // Non recursive printing of binary tree in alphabetical order
     @Override
 	public String print() {
-    	return "Printed";
+    	if (root == null) {
+    		return "Nothing to print";
+    	}
+    	
+    	String returnString = "";
+    	BinaryNode currentNode = root;
+    	BinaryNode preNode = null;
+    	
+    	while (currentNode != null) {
+    		if (currentNode.getLeft() == null) {
+    			returnString = returnString + currentNode.getElement().getType() + ": " + currentNode.getElement().getInstances() + "\n";
+    			currentNode = currentNode.getRight();
+    		} else {
+    			preNode = currentNode.getLeft();
+    			while (preNode.getRight() != null && preNode.getRight().getElement().getType().equals(currentNode.getElement().getType()) == false) {
+    				preNode = preNode.getRight();
+    			}
+    			
+    			if (preNode.getRight() == null) {
+    				preNode.setRight(currentNode);
+    				currentNode = currentNode.getLeft();
+    			} else {
+    				preNode.setRight(null);
+        			returnString = returnString + currentNode.getElement().getType() + ": " + currentNode.getElement().getInstances() + "\n";
+    				currentNode = currentNode.getRight();
+    			}
+    		}
+    	}
+    	
+    	return returnString;
     } // end of OrderedPrint
 
 
     @Override
 	public String printRange(String lower, String upper) {
-
-        // Placeholder, please update.
-        return new String();
+    	if (root == null) {
+    		return "Nothing to print";
+    	}
+    	
+    	String returnString = "";
+    	BinaryNode currentNode = root;
+    	BinaryNode preNode = null;
+    	
+    	while (currentNode != null) {
+    		if (currentNode.getLeft() == null) {
+    			if (currentNode.getElement().getType().compareToIgnoreCase(lower) > 0 && currentNode.getElement().getType().compareToIgnoreCase(upper) < 0) {
+    				returnString = returnString + currentNode.getElement().getType() + ": " + currentNode.getElement().getInstances() + "\n";
+    			}
+    			currentNode = currentNode.getRight();
+    		} else {
+    			preNode = currentNode.getLeft();
+    			while (preNode.getRight() != null && preNode.getRight().getElement().getType().equals(currentNode.getElement().getType()) == false) {
+    				preNode = preNode.getRight();
+    			}
+    			
+    			if (preNode.getRight() == null) {
+    				preNode.setRight(currentNode);
+    				currentNode = currentNode.getLeft();
+    			} else {
+    				preNode.setRight(null);
+        			if (currentNode.getElement().getType().compareToIgnoreCase(lower) > 0 && currentNode.getElement().getType().compareToIgnoreCase(upper) < 0) {
+        				returnString = returnString + currentNode.getElement().getType() + ": " + currentNode.getElement().getInstances() + "\n";
+        			}
+    				currentNode = currentNode.getRight();
+    			}
+    		}
+    	}
+    	
+    	return returnString;
     } // end of printRange()
 
 
     @Override
 	public RmitMultiset union(RmitMultiset other) {
-
-        // Placeholder, please update.
-        return null;
+		RmitMultiset unionMultiset = other;
+		
+//		for (int i = 0; i < mLength; ++i) {
+//			if (other.contains() == false) {
+//				unionMultiset.add(get(i).getType());
+//			}
+//		}
+		
+		return unionMultiset;
     } // end of union()
 
 
@@ -97,18 +189,18 @@ public class BstMultiset extends RmitMultiset
     } // end of difference()
     
     
-    public BinaryNode get(BinaryNode root, String type) {
-    	if (root == null) {
+    public BinaryNode get(BinaryNode currentNode, String type) {
+    	if (currentNode == null) {
     		return null;
     	}
     	
-    	while (root != null) {
-    		if (root.getElement().getType().equals(type)) {
-    			return root;
-    		} else if (root.getElement().getType().compareToIgnoreCase(type) < 0) {
-    			root = root.getRight();
+    	while (currentNode != null) {
+    		if (currentNode.getElement().getType().equals(type)) {
+    			return currentNode;
+    		} else if (currentNode.getElement().getType().compareToIgnoreCase(type) < 0) {
+    			currentNode = currentNode.getRight();
     		} else {
-    			root = root.getLeft();
+    			currentNode = currentNode.getLeft();
     		}
     	}
     	
@@ -116,17 +208,17 @@ public class BstMultiset extends RmitMultiset
     }
     
   
-	public boolean containsNR(BinaryNode node, String type) {
-	  	if (node == null) {
+	public boolean containsNR(BinaryNode currentNode, String type) {
+	  	if (currentNode == null) {
 	  		return false;
 	  	}
-	  	if (type.equals(node.getElement().getType())) {
+	  	if (type.equals(currentNode.getElement().getType())) {
 	  		return true;
 	  	}
-	  	if (type.compareToIgnoreCase(node.getElement().getType()) < 0) {
-	  		return containsNR(node.getLeft(), type);
+	  	if (type.compareToIgnoreCase(currentNode.getElement().getType()) < 0) {
+	  		return containsNR(currentNode.getLeft(), type);
 	  	} else {
-	  		return containsNR(node.getRight(), type);
+	  		return containsNR(currentNode.getRight(), type);
 	  	}
 	}
     
@@ -150,15 +242,11 @@ public class BstMultiset extends RmitMultiset
     	return currentNode;
     }
     
-    public void romove(String type) {
+    public void remove(String type) {
     	root = removeR(root, type);
     }
     
     private BinaryNode removeR(BinaryNode currentNode, String type) {
-    	if (currentNode == null) {
-    		return currentNode;
-    	}
-    	
     	if (currentNode == null) {
     		return currentNode;
     	}

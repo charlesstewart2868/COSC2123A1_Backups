@@ -16,7 +16,7 @@ public class ArrayMultiset extends RmitMultiset {
 	- Initialiser  		||COMPLETE||
 	- Add				||COMPLETE||
 	- Search			||COMPLETE||
-	- SearchByInstance
+	- SearchByInstance	||COMPLETE||
 	- Contains			||COMPLETE||
 	- RemoveOne			||COMPLETE||
 	- Print				||COMPLETE||
@@ -85,11 +85,15 @@ public class ArrayMultiset extends RmitMultiset {
 
 	@Override
 	public List<String> searchByInstance(int instanceCount) {
-		// Implement me!
-
-		// Placeholder, please update.
-		// Java.lang.utils not required for this method
-		return null;
+		MyList<String> list = new MyList<String>();
+		
+		for (int i = 0; i < arraySize; i++) {
+			if (arrayMultiset[i].getInstances() == instanceCount) {
+				list.add(arrayMultiset[i].getType());
+			}
+		}
+		
+		return list;
 	} // end of searchByInstance
 
 	@Override

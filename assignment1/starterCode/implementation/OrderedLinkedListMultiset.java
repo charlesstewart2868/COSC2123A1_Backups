@@ -16,7 +16,7 @@ public class OrderedLinkedListMultiset extends RmitMultiset
 	- Initialiser  		||COMPLETE||
 	- Add				||COMPLETE||
 	- Search			||COMPLETE||
-	- SearchByInstance
+	- SearchByInstance	||COMPLETE||
 	- Contains			||COMPLETE||
 	- RemoveOne			||COMPLETE||
 	- Print				||COMPLETE||
@@ -64,9 +64,15 @@ public class OrderedLinkedListMultiset extends RmitMultiset
 
     @Override
 	public List<String> searchByInstance(int instanceCount) {
-
-        // Placeholder, please update.
-        return null;
+		MyList<String> list = new MyList<String>();
+		
+		for (int i = 0; i < mLength; i++) {
+			if (get(i).getInstances() == instanceCount) {
+				list.add(get(i).getType());
+			}
+		}
+		
+		return list;
     } // end of searchByInstance
  
 
@@ -118,12 +124,30 @@ public class OrderedLinkedListMultiset extends RmitMultiset
     	LinkedNode currentNode = mHead;
     	
     	String returnString = "";
+    	Element[] tempArray = new Element[mLength];
+    	int index = 0;
     	
     	while (currentNode != null) {
-    		returnString = returnString + currentNode.getElement().getType() + ": " + currentNode.getElement().getInstances() + "\n";
+    		tempArray[index] = currentNode.getElement();
     		currentNode = currentNode.getNext();
+    		index++;
     	}
     	
+        for (int i = 0; i < mLength; i++) {
+            for (int j = 0; j < mLength - 1; j++) {
+                // check if we need to swap
+                if (tempArray[j].getInstances() < tempArray[j+1].getInstances()) {
+                    Element temp = tempArray[j];
+                    tempArray[j] = tempArray[j+1];
+                    tempArray[j+1] = temp;
+                }
+            }
+        }
+    	
+        for (int i = 0; i < mLength; ++i) {
+        	returnString = returnString + tempArray[i].getType() + ": " + tempArray[i].getInstances() + "\n";
+        }
+
     	return returnString;
     } // end of OrderedPrint
 

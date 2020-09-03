@@ -1,0 +1,22 @@
+# print s1
+robot: 2
+blow: 1
+Robot: 1
+fortune: 1
+# search s1 robot
+robot 2
+# search s1 dock
+dock 0
+# searchByInstance s1 2
+-1
+> operation failed, null returned.
+# print s1
+blow: 3
+robot: 2
+fortune: 1
+Robot: 1
+# list
+s1
+s2
+# print s2
+robot: 1
